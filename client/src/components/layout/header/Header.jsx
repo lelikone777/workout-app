@@ -1,20 +1,41 @@
-import React from 'react';
-import styles from './header.module.scss'
-import {useAuth} from "../../../hooks/useAuth";
-import {FiArrowLeft} from "react-icons/fi";
-import Hamburger from "../hamburger/Hamburger";
+import { IoMdArrowBack } from 'react-icons/io'
+import { SlUser } from 'react-icons/sl'
+import { useLocation, useNavigate } from 'react-router-dom'
 
-const Header = ({backLink}) => {
+import { useAuth } from '../../../hooks/useAuth'
 
-    // const {} = useAuth()
+import Hamburger from '../hamburger/Hamburger'
 
-    return (
-        <header className={styles.header}>
-            <button onClick={() => {}}></button>
-            <FiArrowLeft/>
-            <Hamburger/>
-        </header>
-    );
-};
+import styles from './Header.module.scss'
 
-export default Header;
+const Header = ({ backLink = '' }) => {
+	const { pathname } = useLocation()
+	const navigate = useNavigate()
+
+	const { isAuth } = useAuth()
+
+	return (
+		<header className={styles.header}>
+			{pathname !== '/' ? (
+				<button
+					onClick={() => {
+						navigate(backLink)
+					}}
+				>
+					<IoMdArrowBack fill='#fff' fontSize={29} />
+				</button>
+			) : (
+				<button
+					onClick={() => {
+						navigate(isAuth ? '/profile' : '/auth')
+					}}
+				>
+					<SlUser fill='#fff' fontSize={25} />
+				</button>
+			)}
+			<Hamburger />
+		</header>
+	)
+}
+
+export default Header

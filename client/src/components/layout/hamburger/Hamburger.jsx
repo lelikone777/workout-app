@@ -1,23 +1,22 @@
-import React, {useState} from 'react';
+import { CgMenuRight } from 'react-icons/cg'
+import { IoClose } from 'react-icons/io5'
+
+import { useOnClickOutside } from '../../../hooks/useOnClickOutside'
+
 import styles from './Hamburger.module.scss'
-import {CgMenuRight} from "react-icons/cg";
-import {IoClose} from "react-icons/io5";
+import Menu from './Menu'
 
 const Hamburger = () => {
+	const { isShow, ref, setIsShow } = useOnClickOutside(false)
 
-    const [isShow, setIsShow] = useState(false)
+	return (
+		<div className={styles.wrapper} ref={ref}>
+			<button onClick={() => setIsShow(!isShow)}>
+				{isShow ? <IoClose /> : <CgMenuRight />}
+			</button>
+			<Menu isShow={isShow} />
+		</div>
+	)
+}
 
-    const logoutHandler = () => {
-
-    }
-
-    return (
-        <div className={styles.wrapper}>
-            <button onClick={() => {setIsShow(!isShow)}}>
-                {isShow ? <IoClose color='white'/> : <CgMenuRight color='white'/>}
-            </button>
-        </div>
-    );
-};
-
-export default Hamburger;
+export default Hamburger
